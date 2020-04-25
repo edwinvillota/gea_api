@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize')
 const Model = Sequelize.Model
 
-class RolScopes extends Model {}
+class RolModules extends Model {}
 
 module.exports = (sequelize) => {
-    RolScopes.init({
+    RolModules.init({
         id: {
         type: Sequelize.BIGINT,
         primaryKey: true,
@@ -14,14 +14,14 @@ module.exports = (sequelize) => {
             type: Sequelize.DataTypes.UUID,
             allowNull: false,
         },
-        scope_id: {
+        module_id: {
             type: Sequelize.DataTypes.UUID,
             allowNull: false
         }
     }, {
         sequelize,
-        modelName: 'rol_scopes'
+        modelName: 'rol_modules'
     })
 
-    return RolScopes
+    return RolModules
 }

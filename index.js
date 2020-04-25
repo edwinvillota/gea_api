@@ -10,10 +10,13 @@ const { config } = require('./config/index')
 // Controllers
 const usersApi = require('./routes/users')
 const modulesApi = require('./routes/modules')
+const submodulesApi = require('./routes/submodules')
 const rolesApi = require('./routes/roles')
 const scopesApi = require('./routes/scopes')
 const authApi = require('./routes/auth')
 const rolScopesApi = require('./routes/rol_scopes')
+const rolModulesApi = require('./routes/rol_modules')
+
 
 
 // Middlewares
@@ -22,7 +25,7 @@ const notFoundHandler = require('./utils/middleware/notFoundHandler')
 
 // Cors options
 const corsOptions = {
-    origin: 'http://localhost:4000'
+    origin: 'http://localhost:3000'
 }
 
 // Use
@@ -35,9 +38,11 @@ app.use(helmet())
 authApi(app)
 usersApi(app)
 modulesApi(app)
+submodulesApi(app)
 rolesApi(app)
 scopesApi(app)
 rolScopesApi(app)
+rolModulesApi(app)
 
 // Catch Not found
 app.use(notFoundHandler)

@@ -1,5 +1,4 @@
 const db = require('../lib/mysqldb')
-const Op = require('sequelize').Op
 
 class ScopeService {
     async getScopes () {

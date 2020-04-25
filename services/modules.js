@@ -6,7 +6,12 @@ class ModulesService {
     
     async getModules() {
         try {
-            const modules = await db.modules.findAll()
+            const modules = await db.modules.findAll({
+                include: [{
+                    model: db.submodules,
+                    attributes: ['submodule_id', 'name', 'route', 'icon']
+                }]
+            })
             return modules || []
         } catch (e) {
             console.log(e)

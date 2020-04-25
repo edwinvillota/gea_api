@@ -49,7 +49,7 @@ function authApi (app) {
 
                     const scopes = await rolScopesService.getScopesByRol({ rolId: user.rol_id })
 
-                    const { user_id, username, email } = user
+                    const { user_id, username, email, rol_id } = user
 
                     const payload = {
                         sub: user_id,
@@ -62,7 +62,7 @@ function authApi (app) {
                         expiresIn: '15m'
                     })
 
-                    return res.status(200).json({ token, user: { user_id, username, email }})
+                    return res.status(200).json({ token, user: { user_id, username, email, rol_id, scopes }})
 
                 })
             } catch (e) {

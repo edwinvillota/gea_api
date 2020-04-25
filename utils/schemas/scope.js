@@ -7,7 +7,7 @@ const scopeIdSchema = Joi.object({
 })
 
 const createScopeSchema = Joi.object({
-    name: Joi.string().min(4).max(30).required(),
+    name: Joi.string().regex(/^[a-z]{3,25}:[a-z]{3,10}(_){0,1}[a-z]{3,10}$/).required(),
     type: Joi.string().min(3).max(10).required(),
     resource: Joi.string().min(3).max(30).required()
 })

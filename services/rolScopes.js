@@ -2,7 +2,7 @@ const db = require('../lib/mysqldb')
 const Op = require('sequelize').Op
 
 
-class RolScopesServices {
+class RolScopesService {
 
     async getRolScopes () {
         try {
@@ -37,7 +37,7 @@ class RolScopesServices {
             console.log(e)
             return []
         }
-    }   
+    }
 
     async addRolScope ( {rolId, scopeId} ) {
 
@@ -57,4 +57,4 @@ class RolScopesServices {
     } 
 }
 
-module.exports = RolScopesServices
+module.exports = RolScopesService

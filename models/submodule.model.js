@@ -1,18 +1,15 @@
 const Sequelize = require('sequelize')
 const Model = Sequelize.Model
 
-class Module extends Model {}
-
-
+class Submodule extends Model {}
 
 module.exports = (sequelize) => {
-    Module.init({
-        module_id: {
+    Submodule.init({
+        submodule_id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            autoIncrement: true,
             unique: true,
-            primaryKey: true,
-            autoIncrement: true
+            primaryKey: true
         },
         name: {
             type: Sequelize.STRING,
@@ -28,19 +25,18 @@ module.exports = (sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        hasSubmodules: {
-            type: Sequelize.BOOLEAN,
+        module_id: {
+            type: Sequelize.INTEGER,
             allowNull: false
         },
-        description: {
+        auth_scope: {
             type: Sequelize.STRING,
             allowNull: false
         }
-    },
-    {
+    }, {
         sequelize,
-        modelName: 'module'
+        modelName: 'submodule'
     })
 
-    return Module
-} 
+    return Submodule
+}
