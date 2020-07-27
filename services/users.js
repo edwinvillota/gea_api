@@ -5,10 +5,24 @@ const Op = require('sequelize').Op
 
 class UserService {
 
-    async getUsers() {
+    async getUsers({ page = 1, rows = 10 }) {
+        const offset = (page - 1) * rows
+
         try {
-            const users = await db.users.findAll()
-            return users || []
+            const total = await db.users.count()
+            const users = await db.users.findAll({
+                attributes: ['user_id', 'username', 'name', 'lastname', 'email', 'createdAt'],
+                include: [{
+                    model: db.roles,
+                    attributes: ['name']
+                }],
+                order: [
+                    ['username', 'ASC'],
+                ],
+                limit: rows,
+                offset: offset
+            })
+            return { users, total } || []
         } catch (e) {
             console.log(e)
             return []

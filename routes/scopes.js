@@ -22,7 +22,7 @@ const scopesValidationHandler = require('../utils/middleware/scopesValidationHan
 
 // Cache
 const cacheResponse = require('../utils/cacheResponse')
-const { FIVE_MINUTES_IN_SECONDS, SIXTY_MINUTES_IN_SECONDS } = require('../utils/time')
+const { SIXTY_MINUTES_IN_SECONDS } = require('../utils/time')
 
 // Strategies 
 require('../utils/auth/strategies/jwt')
@@ -34,17 +34,20 @@ function scopesApi (app) {
     const scopesService = new ScopeService()
 
     router.get(
-        '/',
+        '/:page',
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:scopes']),
         async function(req, res, next) {
             cacheResponse(res, SIXTY_MINUTES_IN_SECONDS)
 
             try {
-                const scopes = await scopesService.getScopes()
+                const { page } = req.params
+                const data = await scopesService.getScopes({ page })
 
                 res.status(200).json({
-                    data: scopes,
+                    data: data.scopes,
+                    total: data.total,
+                    page: page,
                     message: 'scopes listed'
                 })
             } catch (e) {

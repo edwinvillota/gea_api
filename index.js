@@ -16,6 +16,7 @@ const scopesApi = require('./routes/scopes')
 const authApi = require('./routes/auth')
 const rolScopesApi = require('./routes/rol_scopes')
 const rolModulesApi = require('./routes/rol_modules')
+const lpUsersApi = require('./routes/lp_users')
 
 
 
@@ -43,6 +44,7 @@ rolesApi(app)
 scopesApi(app)
 rolScopesApi(app)
 rolModulesApi(app)
+lpUsersApi(app)
 
 // Catch Not found
 app.use(notFoundHandler)

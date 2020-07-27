@@ -32,17 +32,20 @@ function usersApi (app) {
     const usersService = new UsersService()
 
     router.get(
-        '/',
+        '/:page',
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:users']),
         async function(req, res, next) {
         cacheResponse(res, FIVE_MINUTES_IN_SECONDS)
 
         try {
-            const users = await usersService.getUsers()
+            const { page } = req.params
+            const data = await usersService.getUsers({ page })
 
             res.status(200).json({
-                data: users,
+                data: data.users,
+                total: data.total,
+                page: page,
                 message: 'users listed'
             })
         } catch (e) {

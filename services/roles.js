@@ -1,12 +1,13 @@
 const db = require('../lib/mysqldb')
 const generateRandomToken = require('../utils/generateRandomToken')
-const Op = require('sequelize').Op
 
 class RolService {
 
     async getRoles () {
         try {
-            const roles = await db.roles.findAll()
+            const roles = await db.roles.findAll({
+                attributes: ['rol_id', 'name', 'description', 'createdAt'],
+            })
             return roles || []
         } catch (e) {
             console.log(e)
