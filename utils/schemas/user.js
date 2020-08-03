@@ -20,9 +20,18 @@ const createUserSchema = Joi.object({
     rol_id: Joi.string().required()
 })
 
+const searchUserSchema = Joi.object({
+    params: Joi.array().items(Joi.object({
+        propname: Joi.string().min(2).required(),
+        value: Joi.string().min(1).required(),
+    })),
+    page: Joi.number().required()
+})
+
 module.exports = {
     userId,
     userIdSchema,
     userNameSchema,
-    createUserSchema
+    createUserSchema,
+    searchUserSchema
 }

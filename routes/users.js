@@ -8,7 +8,8 @@ const UsersService = require('../services/users')
 // Validation Schemas
 const {
     createUserSchema,
-    userNameSchema
+    userNameSchema,
+    searchUserSchema
 } = require('../utils/schemas/user')
 
 // Validation Handler
@@ -19,7 +20,7 @@ const scopesValidationHandler = require('../utils/middleware/scopesValidationHan
 // Cache
 
 const cacheResponse = require('../utils/cacheResponse')
-const { FIVE_MINUTES_IN_SECONDS, SIXTY_MINUTES_IN_SECONDS } = require('../utils/time')
+const { SIXTY_MINUTES_IN_SECONDS } = require('../utils/time')
 
 // Strategies 
 require('../utils/auth/strategies/jwt')
@@ -36,7 +37,6 @@ function usersApi (app) {
         passport.authenticate('jwt', { session: false }),
         scopesValidationHandler(['read:users']),
         async function(req, res, next) {
-        cacheResponse(res, FIVE_MINUTES_IN_SECONDS)
 
         try {
             const { page } = req.params
@@ -97,6 +97,29 @@ function usersApi (app) {
                 next(e)
             }
     })
+
+    router.post(
+        '/search',
+        validationHandler(searchUserSchema),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['read:users']),
+        async function(req, res, next) {
+            const { params, page = 1, limit = 10 } = req.body
+
+            try {
+                const data = await usersService.searchUser({ params, page, rows: limit })
+
+                res.status(200).json({
+                    data: data.users,
+                    total: data.total,
+                    page: page,
+                    message: 'Users listed'
+                })
+            } catch (e) {
+                next(e)
+            }
+        }
+    )
 }
 
 module.exports = usersApi

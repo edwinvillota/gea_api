@@ -40,6 +40,44 @@ class UserService {
         return user.dataValues || false
     }
 
+    async searchUser({ params = [], page = 1, rows = 10 }) {
+        const offset = (page - 1) * rows
+
+        try {
+            const queryParams = params.map(({ propname, value }) => {
+                return {[propname]: {
+                    [Op.like]: `%${value}%`
+                }}
+            })
+
+            const configQuery = {
+                attributes: ['user_id', 'username', 'name', 'lastname', 'email', 'createdAt'],
+                include: [{
+                    model: db.roles,
+                    attributes: ['name']
+                }],
+                where: {
+                    [Op.and]: queryParams
+                },
+                order: [
+                    ['username', 'ASC'],
+                ],
+                limit: rows,
+                offset: offset
+            }
+
+            const total = await db.users.count({ where: configQuery.where })
+            const users = await db.users.findAll(configQuery)
+
+            return { users, total } || []
+
+
+        } catch (error) {
+            console.log(error)
+            return []
+        }
+    }
+
     async createUser(newUser) {
 
         const hashedPassword = await bcrypt.hash(newUser.password, 10)
