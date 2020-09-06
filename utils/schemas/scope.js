@@ -12,8 +12,17 @@ const createScopeSchema = Joi.object({
     resource: Joi.string().min(3).max(30).required()
 })
 
+const searchScopeSchema = Joi.object({
+    params: Joi.array().items(Joi.object({
+        propname: Joi.string().min(2).required(),
+        value: Joi.string().min(1).required(),
+    })),
+    page: Joi.number().required()
+})
+
 module.exports = {
     scopeId,
     scopeIdSchema,
-    createScopeSchema
+    createScopeSchema,
+    searchScopeSchema
 }

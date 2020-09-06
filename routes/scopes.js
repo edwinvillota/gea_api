@@ -8,13 +8,10 @@ const ScopeService = require('../services/scopes')
 // Validation Schemas
 
 const {
-    scopeIdSchema,
-    createScopeSchema
+    createScopeSchema,
+    searchScopeSchema,
 } = require('../utils/schemas/scope')
 
-const {
-    rolIdSchema
-} = require('../utils/schemas/rol')
 // Validation Handler
 
 const validationHandler = require('../utils/middleware/validationHandler')
@@ -75,6 +72,29 @@ function scopesApi (app) {
                 } else {
                     next(boom.badRequest('Scope already exists'))
                 }
+            } catch (e) {
+                next(e)
+            }
+        }
+    )
+
+    router.post(
+        '/search',
+        validationHandler(searchScopeSchema),
+        passport.authenticate('jwt', { session: false }),
+        scopesValidationHandler(['read:users']),
+        async function (req, res, next) {
+            const { params, page = 1, limit = 10} = req.body
+
+            try {
+                const data = await scopesService.searchScope({ params, page, rows: limit })
+
+                res.status(200).json({
+                    data: data.scopes,
+                    total: data.total,
+                    page: page,
+                    message: 'Scopes listed'
+                })
             } catch (e) {
                 next(e)
             }
