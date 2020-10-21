@@ -26,7 +26,11 @@ const notFoundHandler = require('./utils/middleware/notFoundHandler')
 
 // Cors options
 const corsOptions = {
-    origin: 'http://localhost:3000'
+    origin: [
+        'http://localhost:3000',
+        'http://mente-agil.com',
+        'http://www.mente-agil.com'
+    ]
 }
 
 // Use
