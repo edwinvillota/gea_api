@@ -15,7 +15,7 @@
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "@hapi/joi": "^17.1.1",
-    "bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -26,7 +26,7 @@
     "passport": "^0.4.1",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.0",
-    "sequelize": "^5.21.5"
+    "sequelize": "^6.1.0"
   },
   "devDependencies": {
     "chalk": "^3.0.0",
